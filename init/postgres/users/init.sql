@@ -1,0 +1,2 @@
+CREATE DATABASE "UserService";
+GRANT ALL PRIVILEGES ON DATABASE "UserService" TO "admin"

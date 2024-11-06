@@ -1,8 +1,9 @@
 package com.example.userservice.controller;
 
-import com.example.userservice.entity.User;
+import com.example.userservice.model.User;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +33,12 @@ public class UserController {
     }
 
     @GetMapping("/email")
-    public ResponseEntity<Optional<User>> getUserByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(userService.getUserByEmail(email));
+    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+        Optional<User> user = userService.getUserByEmail(email);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User userDetails) {
@@ -50,7 +54,8 @@ public class UserController {
     @GetMapping("/{id}/role")
     public ResponseEntity<String> checkUserRole(@PathVariable int id) {
         Optional<User> user = userService.getUserById(id);
-        if (user.isPresent() && "staff".equalsIgnoreCase(user.get().getRole())) {
+        if (user.isPresent() &&
+                ("staff".equalsIgnoreCase(user.get().getRole()) || "admin".equalsIgnoreCase(user.get().getRole()))) {
             return ResponseEntity.ok("User has approval permissions");
         }
         return ResponseEntity.ok("User does not have approval permissions");

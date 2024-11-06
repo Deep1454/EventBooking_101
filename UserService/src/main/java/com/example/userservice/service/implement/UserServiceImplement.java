@@ -1,14 +1,16 @@
 package com.example.userservice.service.implement;
 
-import com.example.userservice.entity.User;
+import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserServiceImplement implements UserService {
 
     @Autowired
@@ -33,7 +35,7 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(int id) {
+    public Optional<User> getUserById( int id) {
         return userRepository.findById(id);
     }
 
