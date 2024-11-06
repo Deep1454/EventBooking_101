@@ -1,21 +1,17 @@
 version: '3.9'
 
 services:
-
-
   userservice-db:
     image: postgres
     ports:
       - "5432:5432"
-    container_name: GBC_EventBooking
+    container_name: UserService
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
     volumes:
       - ./data/users:/var/lib/postgresql/data
       - ./init/postgres/users/init.sql:/init.sql
-
-
 
   pgadmin:
      image: dpage/pgadmin4
@@ -25,3 +21,15 @@ services:
      environment:
       - PGADMIN_DEFAULT_EMAIL=user@domain.ca
       - PGADMIN_DEFAULT_PASSWORD=password
+
+  roomservice-db:
+    image: postgres
+    ports:
+      - "5433:5432"
+    container_name: RoomService
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./data/users:/var/lib/postgresql/data
+      - ./init/postgres/users/init.sql:/init.sql
