@@ -9,8 +9,8 @@ FROM openjdk:23-jdk-slim
 
 RUN mkdir /app
 
-COPY --from=builder /home/gradle/src/build/libs/*.jar /app/UserService.jar
+COPY --from=builder /home/gradle/src/build/libs/*.jar /app/RoomService.jar
 
 EXPOSE 2010
 
-ENTRYPOINT ["java", "-jar", "/app/UserService.jar"]
+ENTRYPOINT ["java", "-jar", "/app/RoomService.jar"]
