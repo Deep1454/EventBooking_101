@@ -23,9 +23,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getUserById(@PathVariable int id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
+        return userService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
 
     @GetMapping
     public List<User> getAllUsers() {

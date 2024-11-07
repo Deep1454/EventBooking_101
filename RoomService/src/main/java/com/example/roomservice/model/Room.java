@@ -16,6 +16,8 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false, unique = true)
+    private String roomId;
 
     @Column(nullable = false)
     private String roomName;

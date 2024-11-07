@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class RoomController {
     @PostMapping
     public ResponseEntity<Room> createRoom(@RequestBody Room room) {
         Room savedRoom = roomService.saveRoom(room);
-        return ResponseEntity.ok(savedRoom);
+        return ResponseEntity.created(URI.create("/api/rooms/" + savedRoom.getId())).body(savedRoom);
     }
 
     @PutMapping("/{id}")
@@ -49,10 +50,9 @@ public class RoomController {
     // Endpoint for checking availability
     @GetMapping("/{id}/availability")
     public ResponseEntity<Boolean> checkRoomAvailability(@PathVariable int id) {
-        boolean isAvailable = roomService.getRoomById(id)
-                .map(Room::isAvailability)
-                .orElse(false);
-        return ResponseEntity.ok(isAvailable);
+        return roomService.getRoomById(id)
+                .map(room -> ResponseEntity.ok(room.isAvailability()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/available")

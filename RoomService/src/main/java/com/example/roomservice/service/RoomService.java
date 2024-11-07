@@ -31,11 +31,14 @@ public class RoomService {
     }
 
     public Room updateRoom(int id, Room roomDetails) {
-        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Room not found"));
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Room with ID " + id + " not found"));
+
         room.setRoomName(roomDetails.getRoomName());
         room.setCapacity(roomDetails.getCapacity());
         room.setFeatures(roomDetails.getFeatures());
         room.setAvailability(roomDetails.isAvailability());
+
         return roomRepository.save(room);
     }
 
