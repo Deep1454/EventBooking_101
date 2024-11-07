@@ -18,8 +18,12 @@ public class Booking {
     private String userId;
     private LocalDateTime startTime;  // Changed to startTime
     private LocalDateTime endTime;    // Changed to endTime
+    @Id
+    private String id;
+
 
     // Getters and Setters
+
     public String getRoomId() {
         return roomId;
     }

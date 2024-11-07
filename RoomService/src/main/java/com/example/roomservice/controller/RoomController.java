@@ -29,6 +29,13 @@ public class RoomController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/roomId/{roomId}") // Endpoint to get room by custom roomId
+    public ResponseEntity<Room> getRoomByRoomId(@PathVariable String roomId) {
+        Optional<Room> room = roomService.getRoomByRoomId(roomId);
+        return room.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<Room> createRoom(@RequestBody Room room) {
         Room savedRoom = roomService.saveRoom(room);
@@ -47,10 +54,18 @@ public class RoomController {
         return ResponseEntity.noContent().build();
     }
 
-    // Endpoint for checking availability
+    // Endpoint for checking availability by auto-generated ID
     @GetMapping("/{id}/availability")
     public ResponseEntity<Boolean> checkRoomAvailability(@PathVariable int id) {
         return roomService.getRoomById(id)
+                .map(room -> ResponseEntity.ok(room.isAvailability()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Endpoint for checking availability by custom roomId
+    @GetMapping("/roomId/{roomId}/availability")
+    public ResponseEntity<Boolean> checkRoomAvailabilityByRoomId(@PathVariable String roomId) {
+        return roomService.getRoomByRoomId(roomId)
                 .map(room -> ResponseEntity.ok(room.isAvailability()))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
