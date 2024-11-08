@@ -12,6 +12,6 @@ RUN mkdir /app
 
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/UserService.jar
 
-EXPOSE 2010
+EXPOSE 4010
 
 ENTRYPOINT ["java", "-jar", "/app/UserService.jar"]

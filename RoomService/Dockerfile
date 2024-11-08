@@ -11,6 +11,6 @@ RUN mkdir /app
 
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/RoomService.jar
 
-EXPOSE 2010
+EXPOSE 4011
 
 ENTRYPOINT ["java", "-jar", "/app/RoomService.jar"]

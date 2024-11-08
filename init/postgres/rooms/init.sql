@@ -1,0 +1,2 @@
+CREATE DATABASE "RoomService";
+GRANT ALL PRIVILEGES ON DATABASE "RoomService" TO "admin"
