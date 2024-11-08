@@ -33,7 +33,7 @@ public class BookingService {
         }
 
         // Check room availability by calling RoomService
-        String availabilityUrl = "http://localhost:2011/api/rooms/roomId/" + booking.getRoomId() + "/availability";
+        String availabilityUrl = userServiceUrl + "/api/rooms/roomId/" + booking.getRoomId() + "/availability";
         Boolean isAvailable;
 
         try {
@@ -59,7 +59,7 @@ public class BookingService {
     }
 
     private boolean isUserValid(String userId) {
-        String url ="http://localhost:2010/api/users/" + userId; // Call UserService to validate
+        String url = roomServiceUrl + "/api/users/" + userId; // Call UserService to validate
         ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
         return response.getStatusCode().is2xxSuccessful(); // User exists if status is 2xx
     }

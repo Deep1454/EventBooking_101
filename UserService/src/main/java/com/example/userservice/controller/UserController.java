@@ -55,11 +55,22 @@ public class UserController {
     }
 
     @GetMapping("/{id}/usertype")
-    public ResponseEntity<String> checkUserRole(@PathVariable int id) {
+    public ResponseEntity<String> checkUserType(@PathVariable int id) {
         Optional<User> user = userService.getUserById(id);
         if (user.isPresent()) {
             String userType = user.get().getUserType();
             return ResponseEntity.ok("User type: " + userType);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
+    @GetMapping("/{id}/role")
+    public ResponseEntity<String> checkUserRole(@PathVariable int id) {
+        Optional<User> user = userService.getUserById(id);
+        if (user.isPresent()) {
+            String userRole = user.get().getRole();
+            return ResponseEntity.ok("User role: " + userRole);
         }
         return ResponseEntity.notFound().build();
     }

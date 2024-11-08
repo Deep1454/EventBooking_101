@@ -14,15 +14,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Booking {
 
-    private String roomId;  // Changed from int to String to handle alphanumeric IDs
+    private String roomId;
     private String userId;
-    private LocalDateTime startTime;  // Changed to startTime
-    private LocalDateTime endTime;    // Changed to endTime
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     @Id
     private String id;
 
 
-    // Getters and Setters
+
 
     public String getRoomId() {
         return roomId;
