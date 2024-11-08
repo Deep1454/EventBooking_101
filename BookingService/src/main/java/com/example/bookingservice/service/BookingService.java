@@ -4,10 +4,10 @@ import com.example.bookingservice.model.Booking;
 import com.example.bookingservice.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -27,26 +27,26 @@ public class BookingService {
     private String userServiceUrl;
 
     public Booking createBooking(Booking booking) {
-        // Validate user before proceeding
+        // Validate user ID
         if (!isUserValid(booking.getUserId())) {
             throw new RuntimeException("Invalid user. Booking cannot be created.");
         }
 
-        // Check room availability by calling RoomService
-        String availabilityUrl = userServiceUrl + "/api/rooms/roomId/" + booking.getRoomId() + "/availability";
+        // Check room availability
+        String availabilityUrl = roomServiceUrl + "/api/rooms/roomId/" + booking.getRoomId() + "/availability"; // Corrected URL
         Boolean isAvailable;
 
         try {
             isAvailable = restTemplate.getForObject(availabilityUrl, Boolean.class);
         } catch (RestClientException e) {
-            throw new RuntimeException("Error checking room availability.", e);
+            throw new RuntimeException("Error checking room availability: " + e.getMessage(), e);
         }
 
         if (isAvailable == null || !isAvailable) {
             throw new RuntimeException("Room is not available for booking.");
         }
 
-        // Check for double-booking
+        // Check for overlapping bookings
         List<Booking> overlappingBookings = bookingRepository.findByRoomIdAndStartTimeBeforeAndEndTimeAfter(
                 booking.getRoomId(), booking.getEndTime(), booking.getStartTime());
 
@@ -54,14 +54,21 @@ public class BookingService {
             throw new RuntimeException("Room is already booked for the selected time range.");
         }
 
-        // Save the new booking if room is available and no overlapping bookings exist
+        // Save and return the booking
         return bookingRepository.save(booking);
     }
 
     private boolean isUserValid(String userId) {
-        String url = roomServiceUrl + "/api/users/" + userId; // Call UserService to validate
-        ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
-        return response.getStatusCode().is2xxSuccessful(); // User exists if status is 2xx
+        String url = userServiceUrl + "/api/users/" + userId;
+        ResponseEntity<Void> response;
+
+        try {
+            response = restTemplate.getForEntity(url, Void.class);
+        } catch (RestClientException e) {
+            return false; // Consider user invalid if there's an error
+        }
+
+        return response.getStatusCode().is2xxSuccessful(); // Check for a successful response
     }
 
     public List<Booking> getAllBookings() {
@@ -69,7 +76,8 @@ public class BookingService {
     }
 
     public Booking getBookingById(String id) {
-        return bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+        return bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
     }
 
     public void deleteBooking(String id) {
