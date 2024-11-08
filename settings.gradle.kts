@@ -1,2 +1,2 @@
 rootProject.name = "GBC_EventBookig_Group101"
-include(":UserService", ":RoomService", ":BookingService")
+include(":UserService", ":RoomService", ":BookingService","EventService")

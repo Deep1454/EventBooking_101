@@ -54,13 +54,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}/role")
+    @GetMapping("/{id}/usertype")
     public ResponseEntity<String> checkUserRole(@PathVariable int id) {
         Optional<User> user = userService.getUserById(id);
-        if (user.isPresent() &&
-                ("staff".equalsIgnoreCase(user.get().getRole()) || "admin".equalsIgnoreCase(user.get().getRole()))) {
-            return ResponseEntity.ok("User has approval permissions");
+        if (user.isPresent()) {
+            String userType = user.get().getUserType();
+            return ResponseEntity.ok("User type: " + userType);
         }
-        return ResponseEntity.ok("User does not have approval permissions");
+        return ResponseEntity.notFound().build();
     }
 }
