@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"roomId\": \"room100\",\n    \"roomName\": \"Conference Room B\",\n    \"capacity\": 52,\n    \"features\": \"Projector, Whiteboard, Wi-Fi\",\n    \"availability\": true\n}\n",
+					"raw": "{\n    \"roomId\": \"room111\",\n    \"roomName\": \"Conference Room B\",\n    \"capacity\": 52,\n    \"features\": \"Projector, Whiteboard, Wi-Fi\",\n    \"availability\": true\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -37,7 +37,8 @@
 			"name": "get room by id",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/3"
 			},
 			"response": []
 		},
@@ -45,7 +46,8 @@
 			"name": "get room by roomid",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/roomId/room108"
 			},
 			"response": []
 		},
