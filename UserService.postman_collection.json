@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Deeeeeeeeeeeep\",\n    \"email\": \"12sss@gmail.com\",\n    \"role\": \"staff\",\n    \"userType\": \"staff\"\n}",
+					"raw": "{\n    \"name\": \"Deeeeeeeeeeeep\",\n    \"email\": \"13@gmail.com\",\n    \"role\": \"staff\",\n    \"userType\": \"staff\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -31,14 +31,14 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Vatsaaal Prajapati\",\n    \"email\": \"VatsalPrajapti@gmail.com\",\n    \"role\": \"admin\",\n    \"userType\": \"staff\"\n}",
+					"raw": "  {\n        \"name\": \"Jemmmmmmiccsh\",\n        \"email\": \"12sss@gmail.com\",\n        \"role\": \"admin\",\n        \"userType\": \"admin\"\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:2010/api/users/1"
+				"url": "http://localhost:4010/api/users/1"
 			},
 			"response": []
 		},
@@ -47,7 +47,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:2010/api/users/1"
+				"url": "http://localhost:4010/api/users/1"
 			},
 			"response": []
 		},
@@ -57,12 +57,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:2010/api/users/email?email=vatsalprajapti@gmail.com",
+					"raw": "http://localhost:4010/api/users/email?email=13@gmail.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "2010",
+					"port": "4010",
 					"path": [
 						"api",
 						"users",
@@ -71,7 +71,7 @@
 					"query": [
 						{
 							"key": "email",
-							"value": "vatsalprajapti@gmail.com"
+							"value": "13@gmail.com"
 						}
 					]
 				}
@@ -82,7 +82,8 @@
 			"name": "get all users",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4010/api/users"
 			},
 			"response": []
 		},
@@ -90,7 +91,8 @@
 			"name": "get role by id",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4010/api/users/1/role"
 			},
 			"response": []
 		},
@@ -99,7 +101,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:2011/api/useers/1"
+				"url": "http://localhost:4010/api/users/1"
 			},
 			"response": []
 		}
