@@ -12,6 +12,9 @@ RUN mkdir /app
 
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/UserService.jar
 
+ENV POSTGRES_USER=admin \
+    POSTGRES_PWD=password
+
 EXPOSE 4010
 
 ENTRYPOINT ["java", "-jar", "/app/UserService.jar"]

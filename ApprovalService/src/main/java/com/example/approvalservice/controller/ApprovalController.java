@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,22 +20,18 @@ public class ApprovalController {
         return approvalService.createApproval(approval);
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<Approval> getApprovalById(@PathVariable String id) {
-        return approvalService.getApprovalById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getApprovalById(@PathVariable String id) {
+        return approvalService.getApprovalById(id);
     }
 
     @GetMapping
-    public List<Approval> getAllApprovals() {
+    public ResponseEntity<List<Approval>> getAllApprovals() {
         return approvalService.getAllApprovals();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteApproval(@PathVariable String id) {
-        approvalService.deleteApproval(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteApproval(@PathVariable String id) {
+        return approvalService.deleteApproval(id);
     }
 }

@@ -2,23 +2,86 @@ version: '3.9'
 
 services:
 
-  UserService:
+  user-service:
     image: user-service
     ports:
       - "4010:4010"
     build:
-      context: ./UserService  # The directory where the Dockerfile resides
-      dockerfile: ./Dockerfile    # Specify the Dockerfile for use to build image
+      context: ./UserService
+      dockerfile: ./Dockerfile
     container_name: user-service
     environment:
-      SPRING_PROFILES_ACTIVE: docker # This tells Spring Boot to use the "docker" profile
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - postgres-UserService
+      - postgres-user-service
     networks:
       - spring
 
 
-  postgres-UserService:
+  room-service:
+    image: room-service
+    ports:
+      - "4011:4011"
+    build:
+      context: ./RoomService
+      dockerfile: ./Dockerfile
+    container_name: room-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - postgres-room-service
+    networks:
+      - spring
+
+
+  booking-service:
+    image: booking-service
+    ports:
+      - "4013:4013"
+    build:
+      context: ./BookingService
+      dockerfile: ./Dockerfile
+    container_name: booking-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mongodb
+    networks:
+      - spring
+
+  event-service:
+    image: event-service
+    ports:
+      - "4014:4014"
+    build:
+      context: ./EventService
+      dockerfile: ./Dockerfile
+    container_name: event-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mongodb
+    networks:
+      - spring
+
+
+  approval-service:
+    image: approval-service
+    ports:
+      - "4015:4015"
+    build:
+      context: ./ApprovalService
+      dockerfile: ./Dockerfile
+    container_name: approval-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mongodb
+    networks:
+      - spring
+
+
+  postgres-user-service:
     image: postgres
     ports:
       - "5432:5432"
@@ -27,29 +90,13 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
     volumes:
-      - ./data/postgres/users:/var/lib/postgresql/data # The database will persist data here on the host machine.
+      - ./data/postgres/users:/var/lib/postgresql/data
       - ./init/postgres/users/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - spring
 
 
-  RoomService:
-    image: room-service
-    ports:
-      - "4011:4011"
-    build:
-      context: ./RoomService  # The directory where the Dockerfile resides
-      dockerfile: ./Dockerfile    # Specify the Dockerfile for use to build image
-    container_name: room-service
-    environment:
-      SPRING_PROFILES_ACTIVE: docker # This tells Spring Boot to use the "docker" profile
-    depends_on:
-      - postgres-RoomService
-    networks:
-      - spring
-
-
-  postgres-RoomService:
+  postgres-room-service:
     image: postgres
     ports:
       - "5433:5432"
@@ -59,7 +106,7 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=RoomService
     volumes:
-      - ./data/postgres/rooms:/var/lib/postgresql/data # The database will persist data here on the host machine.
+      - ./data/postgres/rooms:/var/lib/postgresql/data
       - ./init/postgres/rooms/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - spring
@@ -68,91 +115,48 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     ports:
-       - "8888:80"
+      - "8888:80"
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: user@domain.ca
       PGADMIN_DEFAULT_PASSWORD: password
+    networks:
+      - spring
 
-#  mongo:
-#    image: mongo:latest
-#    container_name: mongo
-#    ports:
-#      - "27018:27017"
-#    volumes:
-#      - mongo-data:/data/db
-#    networks:
-#      - booking-network
-#
-#  mongo-express:
-#    image: mongo-express
-#    container_name: mongo-express
-#    ports:
-#      - "8082:8081"
-#    environment:
-#      ME_CONFIG_MONGODB_SERVER: mongo
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: password
-#    networks:
-#      - booking-network
-#
-#  booking-service:
-#    build:
-#      context: ./BookingService  # Adjust the context to point to the BookingService directory
-#      dockerfile: Dockerfile
-#    ports:
-#      - "2011:8080"
-#    environment:
-#      SPRING_DATA_MONGODB_URI: mongodb://admin:password@mongo:27017/booking-service  # MongoDB connection string
-#    depends_on:
-#      - mongo
-#    networks:
-#      - booking-network
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./data/mongo/booking:/data/db
+      - ./init/mongo/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+    networks:
+      - spring
 
-  #userservice-db:
-  #  image: postgres
-  #  ports:
-  #    - "5432:5432"
-  #  container_name: user-service
-  #  environment:
-  #    POSTGRES_USER: admin
-#      POSTGRES_PASSWORD: password
-#    volumes:
-#      - ./data/users:/var/lib/postgresql/data
-#      - ./init/postgres/users/init.sql:/init.sql
-#    networks:
-#      - booking-network
-#
-#  pgadmin:
-#    image: dpage/pgadmin4
-#    ports:
-#      - "8888:80"
-#    container_name: pgadmin
-#    environment:
-#      PGADMIN_DEFAULT_EMAIL: user@domain.ca
-#      PGADMIN_DEFAULT_PASSWORD: password
-#    networks:
-#      - booking-network
-#
-#  roomservice-db:
-#    image: postgres
-#    ports:
-#      - "5433:5432"
-#    container_name: room-service
-#    environment:
-#      POSTGRES_USER: admin
-#      POSTGRES_PASSWORD: password
-#    volumes:
-#      - ./data/rooms:/var/lib/postgresql/data
-#      - ./init/postgres/rooms/init.sql:/init.sql
-#    networks:
-#      - booking-network
-#
-#networks:
-#  booking-network:
-#
-#volumes:
-#  mongo-data:
+
+  mongo-express-booking:
+    image: mongo-express
+    container_name: mongo-express-event-booking
+    ports:
+      - "8082:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+    depends_on:
+      - mongodb
+    networks:
+      - spring
+
+volumes:
+  mongo-db:
+    driver: local
+
+
 networks:
   spring:
     driver: bridge

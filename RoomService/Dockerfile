@@ -11,6 +11,9 @@ RUN mkdir /app
 
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/RoomService.jar
 
+ENV POSTGRES_USER=admin \
+    POSTGRES_PWD=password
+
 EXPOSE 4011
 
 ENTRYPOINT ["java", "-jar", "/app/RoomService.jar"]

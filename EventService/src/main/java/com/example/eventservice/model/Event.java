@@ -13,7 +13,7 @@ public class Event {
     private String eventType;
     private int expectedAttendees;
 
-    // Getters and Setters
+
     public String getId() {
         return id;
     }

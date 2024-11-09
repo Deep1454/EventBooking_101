@@ -17,26 +17,43 @@ public class BookingController {
     private BookingService bookingService;
 
     @PostMapping
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
-        Booking savedBooking = bookingService.createBooking(booking);
-        URI location = URI.create("/api/bookings/" + savedBooking.getRoomId());
-        return ResponseEntity.created(location).body(savedBooking);
+    public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
+
+        ResponseEntity<?> response = bookingService.createBooking(booking);
+
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() instanceof Booking) {
+            Booking savedBooking = (Booking) response.getBody();
+            URI location = URI.create("/api/bookings/" + savedBooking.getId());
+            return ResponseEntity.created(location).body(savedBooking);
+        }
+
+        return response;
     }
 
     @GetMapping
-    public List<Booking> getAllBookings() {
-        return bookingService.getAllBookings();
+    public ResponseEntity<List<Booking>> getAllBookings() {
+        List<Booking> bookings = bookingService.getAllBookings();
+        return ResponseEntity.ok(bookings);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> getBookingById(@PathVariable String id) {
-        Booking booking = bookingService.getBookingById(id);
-        return ResponseEntity.ok(booking);
+    public ResponseEntity<?> getBookingById(@PathVariable String id) {
+        try {
+            Booking booking = bookingService.getBookingById(id);
+            return ResponseEntity.ok(booking);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBooking(@PathVariable String id) {
-        bookingService.deleteBooking(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteBooking(@PathVariable String id) {
+        try {
+            bookingService.deleteBooking(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
     }
 }

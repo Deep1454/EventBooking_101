@@ -17,31 +17,36 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        Event savedEvent = eventService.createEvent(event);
-        return ResponseEntity.created(URI.create("/api/events/" + savedEvent.getId())).body(savedEvent);
+    public ResponseEntity<?> createEvent(@RequestBody Event event) {
+        ResponseEntity<?> response = eventService.createEvent(event);
+
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() instanceof Event) {
+            Event savedEvent = (Event) response.getBody();
+            URI location = URI.create("/api/events/" + savedEvent.getId());
+            return ResponseEntity.created(location).body(savedEvent);
+        }
+
+        return response;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable String id) {
-        return eventService.getEventById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getEventById(@PathVariable String id) {
+        return eventService.getEventById(id);
     }
 
     @GetMapping
-    public List<Event> getAllEvents() {
+    public ResponseEntity<List<Event>> getAllEvents() {
         return eventService.getAllEvents();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable String id, @RequestBody Event eventDetails) {
-        Event updatedEvent = eventService.updateEvent(id, eventDetails);
-        return ResponseEntity.ok(updatedEvent);
+    public ResponseEntity<?> updateEvent(@PathVariable String id, @RequestBody Event eventDetails) {
+        return eventService.updateEvent(id, eventDetails);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable String id) {
-        eventService.deleteEvent(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteEvent(@PathVariable String id) {
+        return eventService.deleteEvent(id);
     }
 }

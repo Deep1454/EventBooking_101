@@ -11,6 +11,9 @@ RUN mkdir /app
 
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/BookingService.jar
 
-EXPOSE 2013
+ENV MONGO_DB_USERNAME=admin \
+    MONGO_DB_PWD=password
+
+EXPOSE 4013
 
 ENTRYPOINT ["java", "-jar", "/app/BookingService.jar"]

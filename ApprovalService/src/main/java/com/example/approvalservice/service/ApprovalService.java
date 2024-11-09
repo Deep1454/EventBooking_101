@@ -11,9 +11,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+
 public class ApprovalService {
 
     @Autowired
@@ -29,55 +29,69 @@ public class ApprovalService {
     private String userServiceUrl;
 
     public ResponseEntity<String> createApproval(Approval approval) {
-
         String userRole = getUserRole(approval.getUserId());
 
-
         if (!approval.isApproved()) {
-
             if (!"staff".equalsIgnoreCase(userRole)) {
-                return ResponseEntity.ok("Only staff can reject events.");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("Only staff can reject events.");
             }
             return ResponseEntity.ok("Event is rejected.");
         }
 
-        validateUserRole(userRole);
-
-
-        validateEventExists(approval.getEventId());
-
+        if (!"staff".equalsIgnoreCase(userRole)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("User with role " + userRole + " does not have permission to approve this event.");
+        }
 
         if (approvalExists(approval.getEventId(), approval.getUserId())) {
-            return ResponseEntity.ok("User has already approved this event.");
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("This user has already approved this event.");
+        }
+
+        ResponseEntity<String> eventValidationResponse = validateEventExists(approval.getEventId());
+        if (eventValidationResponse.getStatusCode() != HttpStatus.OK) {
+            return eventValidationResponse;
         }
 
         Approval savedApproval = approvalRepository.save(approval);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Approval created successfully for event ID: " + approval.getEventId());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Approval created successfully for event ID: " + approval.getEventId());
     }
 
-    public Optional<Approval> getApprovalById(String id) {
-        return approvalRepository.findById(id);
+    public ResponseEntity<Approval> getApprovalById(String id) {
+        return approvalRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(null));
     }
 
-    public List<Approval> getAllApprovals() {
-        return approvalRepository.findAll();
+    public ResponseEntity<List<Approval>> getAllApprovals() {
+        List<Approval> approvals = approvalRepository.findAll();
+        return ResponseEntity.ok(approvals);
     }
 
-    public void deleteApproval(String id) {
+    public ResponseEntity<String> deleteApproval(String id) {
         if (!approvalRepository.existsById(id)) {
-            throw new IllegalArgumentException("Approval with ID " + id + " does not exist.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Approval with ID " + id + " does not exist.");
         }
         approvalRepository.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body("Approval deleted successfully.");
     }
 
     private String getUserRole(String userId) {
         String roleCheckUrl = userServiceUrl + "/api/users/" + userId + "/role";
-        ResponseEntity<String> response = restTemplate.getForEntity(roleCheckUrl, String.class);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return parseUserRole(response.getBody());
-        } else {
-            throw new IllegalArgumentException("Failed to fetch user role for user ID: " + userId);
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(roleCheckUrl, String.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return parseUserRole(response.getBody());
+            } else {
+                return null;
+            }
+        } catch (HttpClientErrorException e) {
+            return null;
         }
     }
 
@@ -88,24 +102,23 @@ public class ApprovalService {
         return roleResponse;
     }
 
-    private void validateUserRole(String role) {
-        if (!"admin".equalsIgnoreCase(role)) {
-            throw new IllegalArgumentException("User with role " + role + " does not have permission to approve this event.");
-        }
-    }
-
-    private void validateEventExists(String eventId) {
+    private ResponseEntity<String> validateEventExists(String eventId) {
         String eventCheckUrl = eventServiceUrl + "/api/events/" + eventId;
         try {
             ResponseEntity<String> eventResponse = restTemplate.getForEntity(eventCheckUrl, String.class);
-            if (eventResponse.getStatusCode() != HttpStatus.OK) {
-                throw new IllegalArgumentException("Event with ID " + eventId + " does not exist or is not available for approval.");
+            if (eventResponse.getStatusCode() == HttpStatus.OK) {
+                return ResponseEntity.ok("Event exists.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Event with ID " + eventId + " does not exist or is not available for approval.");
             }
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                throw new IllegalArgumentException("Event with ID " + eventId + " does not exist.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Event with ID " + eventId + " does not exist.");
             }
-            throw new RuntimeException("An error occurred while checking event availability: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while checking event availability: " + e.getMessage());
         }
     }
 
