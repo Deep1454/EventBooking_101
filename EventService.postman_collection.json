@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "70898c9c-5b57-4d76-8973-f8ba0be869db",
+		"name": "EventService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38515464"
+	},
+	"item": [
+		{
+			"name": "Create Event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventName\": \"Cultural fest\",\n    \"organizerId\": \"5\",\n    \"eventType\": \"Festtival\",\n    \"expectedAttendees\": 2\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4014/api/events"
+			},
+			"response": []
+		},
+		{
+			"name": "get event by id",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get all event",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Update events",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Event",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:4014/api/events/672ee7681006067fa670f4d3"
+			},
+			"response": []
+		}
+	]
+}

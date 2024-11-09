@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "64d33861-2cfe-46f4-ac00-b900593c8830",
+		"name": "ApprovalService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38515464"
+	},
+	"item": [
+		{
+			"name": "Create Approvals",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get approval by id",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get all approvals",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:4015/api/approvals/672ee92372f1d30edff844a0"
+			},
+			"response": []
+		}
+	]
+}
