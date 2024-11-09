@@ -8,9 +8,22 @@
 	"item": [
 		{
 			"name": "Create Approvals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"eventId\": \"672ed3811006067fa670f4d2\",\n  \"userId\": \"3\",\n  \"approved\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4015/api/approvals"
 			},
 			"response": []
 		},
@@ -18,7 +31,8 @@
 			"name": "get approval by id",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4015/api/approvals/672ede8472f1d30edff8449f"
 			},
 			"response": []
 		},
@@ -26,7 +40,8 @@
 			"name": "get all approvals",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4015/api/approvals"
 			},
 			"response": []
 		},
@@ -35,7 +50,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:4015/api/approvals/672ee92372f1d30edff844a0"
+				"url": "http://localhost:4015/api/approvals/672ede8472f1d30edff8449f"
 			},
 			"response": []
 		}

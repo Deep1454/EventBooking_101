@@ -36,15 +36,17 @@
 			"name": "get booking by id",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4013/api/bookings/672ee64da43c9e44b15d1ed7"
 			},
 			"response": []
 		},
 		{
 			"name": "Delete Booking",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:4013/api/bookings/672e94d9c103eb6f136a1d48"
 			},
 			"response": []
 		}

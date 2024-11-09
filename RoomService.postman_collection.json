@@ -52,18 +52,18 @@
 		{
 			"name": "update room",
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n        \"id\": 1,\n        \"roomId\": \"room105\",\n        \"roomName\": \"Conference Room A\",\n        \"capacity\": 52,\n        \"features\": \"Projector, Whiteboard\",\n        \"availability\": false\n    }",
+					"raw": "  {\n    \n        \"roomId\": \"room100\",\n        \"roomName\": \"Conference Room B\",\n        \"capacity\": 54,\n        \"features\": \"Projector, Whiteboard, Wi-Fi\",\n        \"availability\": true\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:4011/api/rooms/2"
+				"url": "http://localhost:4011/api/rooms/4"
 			},
 			"response": []
 		},
@@ -71,7 +71,8 @@
 			"name": "check availabilty by id",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/3/availability"
 			},
 			"response": []
 		},
@@ -79,7 +80,8 @@
 			"name": "check room availability by room id",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/roomId/room108/availability"
 			},
 			"response": []
 		},
@@ -87,7 +89,8 @@
 			"name": "get all available roms",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/available"
 			},
 			"response": []
 		},

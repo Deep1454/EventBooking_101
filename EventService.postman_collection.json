@@ -28,7 +28,8 @@
 			"name": "get event by id",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4014/api/events/672ed3811006067fa670f4d2"
 			},
 			"response": []
 		},
@@ -36,15 +37,29 @@
 			"name": "get all event",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4014/api/events"
 			},
 			"response": []
 		},
 		{
 			"name": "Update events",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n        \"id\": \"672ed3811006067fa670f4d2\",\n        \"eventName\": \"Annual Meeting\",\n        \"organizerId\": \"5\",\n        \"eventType\": \"Festtival\",\n        \"expectedAttendees\": 5\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4014/api/events/672ed3811006067fa670f4d2"
 			},
 			"response": []
 		},
@@ -53,7 +68,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:4014/api/events/672ee7681006067fa670f4d3"
+				"url": "http://localhost:4014/api/events/672ed3811006067fa670f4d2"
 			},
 			"response": []
 		}
