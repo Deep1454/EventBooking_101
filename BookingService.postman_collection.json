@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"roomId\": \"room105\",\n    \"userId\": \"1\",\n    \"startTime\": \"2024-11-08T10:00:00\",\n    \"endTime\": \"2024-11-08T12:00:00\"\n}\n\n",
+					"raw": "{\n    \"roomId\": \"room100\",\n    \"userId\": \"3\",\n    \"startTime\": \"2024-11-08T10:00:00\",\n    \"endTime\": \"2024-11-08T12:00:00\"\n}\n\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -28,7 +28,8 @@
 			"name": "get all bookings",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:4013/api/bookings"
 			},
 			"response": []
 		},
