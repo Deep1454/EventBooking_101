@@ -52,6 +52,7 @@ UserService:
 - Delete User:  DELETE  /api/users/{id}
 - Check User Role:  GET  /api/users/{id}/role
 - Check User type:  GET  /api/users/{id}/usertype
+  
 RoomService:
 - Create Room:  POST  /api/rooms
 - Get Room by ID:  GET  /api/rooms/{id}
@@ -62,17 +63,20 @@ RoomService:
 - Check Room Availability:  GET  /api/rooms/{id}/availability
 - Check Room Availability by RoomID:  GET  /api/rooms/{id}/{roomId}/availability
 - Get Available Rooms:  GET  /api/rooms/available
+
 EventService:
 - Create Event:  POST  /api/events
 - Get Event by ID: GET  /api/events/{id}
 - Get All Events:  GET  /api/events
 - Update Events:  PUT  /api/events/{id}
 - Delete Events:  DELETE  /api/events/{id}
+  
 BookingService:
 - Create Booking:  POST  /api/bookings
 - Get All Bookings:  GET  /api/bookings
 - Get Booking by Id:  GET  /api/bookings/{id}
 - Delete Booking:  DELETE  /api/bookings/{id}
+  
 ApprovalService:
 - Create Approval:  POST  /api/approvals
 - Get Approval by Id:  GET  /api/approvals/{id}
