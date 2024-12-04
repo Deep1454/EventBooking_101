@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "35c2b3ba-7b31-425e-911b-1d09cb9847af",
+		"name": "BookingService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38515464"
+	},
+	"item": [
+		{
+			"name": "create bookings",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roomId\": \"room100\",\n    \"userId\": \"3\",\n    \"startTime\": \"2024-11-08T10:00:00\",\n    \"endTime\": \"2024-11-08T12:00:00\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4013/api/bookings"
+			},
+			"response": []
+		},
+		{
+			"name": "get all bookings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4013/api/bookings"
+			},
+			"response": []
+		},
+		{
+			"name": "get booking by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4013/api/bookings/672ee64da43c9e44b15d1ed7"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Booking",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:4013/api/bookings/672e94d9c103eb6f136a1d48"
+			},
+			"response": []
+		}
+	]
+}

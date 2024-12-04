@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "3bc003af-1338-4d43-be49-ba12ffff97f8",
+		"name": "RoomService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38515464"
+	},
+	"item": [
+		{
+			"name": "Create Room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roomId\": \"room111\",\n    \"roomName\": \"Conference Room B\",\n    \"capacity\": 52,\n    \"features\": \"Projector, Whiteboard, Wi-Fi\",\n    \"availability\": true\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4011/api/rooms"
+			},
+			"response": []
+		},
+		{
+			"name": "get all rooms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4011/api/rooms"
+			},
+			"response": []
+		},
+		{
+			"name": "get room by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/3"
+			},
+			"response": []
+		},
+		{
+			"name": "get room by roomid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/roomId/room108"
+			},
+			"response": []
+		},
+		{
+			"name": "update room",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n    \n        \"roomId\": \"room100\",\n        \"roomName\": \"Conference Room B\",\n        \"capacity\": 54,\n        \"features\": \"Projector, Whiteboard, Wi-Fi\",\n        \"availability\": true\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4011/api/rooms/4"
+			},
+			"response": []
+		},
+		{
+			"name": "check availabilty by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/3/availability"
+			},
+			"response": []
+		},
+		{
+			"name": "check room availability by room id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/roomId/room108/availability"
+			},
+			"response": []
+		},
+		{
+			"name": "get all available roms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/available"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete rooms",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:4011/api/rooms/1"
+			},
+			"response": []
+		}
+	]
+}

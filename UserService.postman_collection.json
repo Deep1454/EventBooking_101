@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "40b00a7c-d242-4a63-a6d4-6f5ed2dd2a95",
+		"name": "UserService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38515464"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Deeeeeeeeeeeep\",\n    \"email\": \"13@gmail.com\",\n    \"role\": \"staff\",\n    \"userType\": \"staff\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4010/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n        \"name\": \"Jemmmmmmiccsh\",\n        \"email\": \"12sss@gmail.com\",\n        \"role\": \"admin\",\n        \"userType\": \"admin\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4010/api/users/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Get users by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4010/api/users/1"
+			},
+			"response": []
+		},
+		{
+			"name": "get users by email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4010/api/users/email?email=13@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4010",
+					"path": [
+						"api",
+						"users",
+						"email"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "13@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4010/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "get role by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4010/api/users/1/role"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:4010/api/users/1"
+			},
+			"response": []
+		}
+	]
+}
