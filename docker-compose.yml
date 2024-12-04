@@ -2,6 +2,60 @@ version: '3.9'
 
 services:
 
+  keycloak:
+    container_name: keycloak
+    hostname: keycloak
+    image: quay.io/keycloak/keycloak:24.0.1
+    command: [ "start-dev", "--import-realm" ]
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgres-keycloak
+      DB_DATABASE: keycloak
+      DB_USER: admin
+      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      ROOT_LOGLEVEL: DEBUG
+      JBOSS_LOG_MANAGER_ROOT_LOGGER: DEBUG, stdout, FILE
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./local-docker-file/keycloak/realms/:/opt/keycloak/data/import
+    depends_on:
+      - postgres-keycloak
+    networks:
+      - spring
+
+  api-gateway:
+    image: api-gateway
+    ports:
+      - "9001:9001"
+    build:
+     context: ./api-gateway
+     dockerfile: ./Dockerfile
+    environment:
+       SPRING_PROFILES_ACTIVE: docker
+       SPRING_APPLICATION_JSON={"logging":{"level":{"root":"INFO","com.example.apigateway":"DEBUG"}}}:
+    container_name: api-gateway
+    networks:
+     - spring
+
+  postgres-keycloak:
+    image: postgres
+    ports:
+      - "5431:5432"
+    container_name: postgres-keycloak
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+      - PGDATA=/data/postgres
+    volumes:
+      - ./data/postgres/keycloak:/var/lib/postgresql/data # The database will persist data here on the host machine.
+    networks:
+      - spring
+
+
   user-service:
     image: user-service
     ports:
@@ -127,7 +181,7 @@ services:
     image: mongo
     container_name: mongodb
     ports:
-      - "27018:27017"
+      - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
