@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     private final String[] noauthResourceUris = {
             "/swagger-ui",
-            "/swagger-ui/*",
+            "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resource/**",
             "/api-docs/**",
@@ -36,8 +36,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-
-
 
 
         log.info("Initializing Security Filter Chain...");
