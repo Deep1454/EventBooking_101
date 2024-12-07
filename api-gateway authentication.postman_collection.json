@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "f7311a30-fcf4-4f95-9c53-4a639fde7938",
+		"name": "api-gateway authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38515464"
+	},
+	"item": [
+		{
+			"name": "create user",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"grant_type": "client_credentials",
+						"password": "student",
+						"username": "student",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"vatsalllpppkk\",\n    \"email\": \"vatsal@gmail.com\",\n    \"role\": \"staff\",\n    \"userType\": \"staff\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9001/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "get users",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"grant_type": "client_credentials",
+						"password": "student",
+						"username": "student",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9001/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "create room",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"grant_type": "client_credentials",
+						"password": "student",
+						"username": "student",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roomId\": \"room555\",\n    \"roomName\": \"Conference Room D\",\n    \"capacity\": 52,\n    \"features\": \"Projector, Whiteboard, Wi-Fi\",\n    \"availability\": true\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9001/api/rooms"
+			},
+			"response": []
+		},
+		{
+			"name": "get rooms",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"grant_type": "client_credentials",
+						"password": "student",
+						"username": "student",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9001/api/rooms"
+			},
+			"response": []
+		},
+		{
+			"name": "create bookings",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"grant_type": "client_credentials",
+						"password": "student",
+						"username": "student",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roomId\": \"room555\",\n    \"userId\": \"1\",\n    \"startTime\": \"2024-11-08T10:00:00\",\n    \"endTime\": \"2024-11-08T12:00:00\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9001/api/bookings"
+			},
+			"response": []
+		},
+		{
+			"name": "get bookings",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"grant_type": "client_credentials",
+						"password": "student",
+						"username": "student",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9001/api/bookings"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Event",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"grant_type": "client_credentials",
+						"password": "student",
+						"username": "student",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventName\": \"Diwali fest\",\n    \"organizerId\": \"1\",\n    \"eventType\": \"Festtival\",\n    \"expectedAttendees\": 19\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9001/api/events"
+			},
+			"response": []
+		},
+		{
+			"name": "get events",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"grant_type": "client_credentials",
+						"password": "student",
+						"username": "student",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9001/api/events"
+			},
+			"response": []
+		},
+		{
+			"name": "create approvals",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"password": "staff",
+						"username": "staff",
+						"grant_type": "password_credentials",
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"eventId\": \"67543c25ffa53a0e7a47d9cb\",\n  \"userId\": \"2\",\n  \"approved\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9001/api/approvals"
+			},
+			"response": []
+		},
+		{
+			"name": "get approvals",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"grant_type": "password_credentials",
+						"password": "staff",
+						"username": "staff",
+						"accessTokenUrl": "http://keycloak:8080/realms/gbc-eventbooking-realm/protocol/openid-connect/token",
+						"clientSecret": "3ZuRpWIHH4ZUBwnRiBx8b1Igxyl9Q0fQ",
+						"clientId": "api-gateway",
+						"tokenName": "Token",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9001/actuator/health"
+			},
+			"response": []
+		}
+	]
+}
