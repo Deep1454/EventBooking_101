@@ -44,6 +44,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.rest-assured:rest-assured")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    //kafka
+    implementation("org.springframework.kafka:spring-kafka:3.3.0")
+    testImplementation("org.springframework.kafka:spring-kafka-test:3.3.0")
+    testImplementation("org.testcontainers:kafka:1.20.4")
 }
 
 tasks.withType<Test> {

@@ -1,16 +1,20 @@
 package com.example.bookingservice.service;
 
 import com.example.bookingservice.client.RoomClient;
+import com.example.bookingservice.event.BookingConfirmedEvent;
 import com.example.bookingservice.model.Booking;
 import com.example.bookingservice.repository.BookingRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+@Slf4j
 @Service
 public class BookingService {
 
@@ -23,9 +27,12 @@ public class BookingService {
     @Autowired
     private RestTemplate restTemplate;
 
+
     @Value("${user-service.url}")
     private String userServiceUrl;
 
+   @Autowired
+   private  KafkaTemplate<String, BookingConfirmedEvent> kafkaTemplate;
 
     public ResponseEntity<?> createBooking(Booking booking) {
 
@@ -60,6 +67,24 @@ public class BookingService {
         }
 
         Booking savedBooking = bookingRepository.save(booking);
+
+        BookingConfirmedEvent bookingConfirmedEvent = new BookingConfirmedEvent(
+                savedBooking.getUserId(),
+                savedBooking.getRoomId(),
+                savedBooking.getStartTime(),
+                savedBooking.getEndTime()
+        );
+
+        try {
+            log.info("Sending BookingConfirmedEvent: {} to Kafka topic booking-confirmed", bookingConfirmedEvent);
+            kafkaTemplate.send("booking-confirmed", bookingConfirmedEvent).get();
+            log.info("Successfully sent BookingConfirmedEvent to Kafka topic booking-confirmed");
+        } catch (Exception e) {
+            log.error("Failed to send BookingConfirmedEvent to Kafka: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to process booking. Please try again later.");
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBooking);
     }
 
