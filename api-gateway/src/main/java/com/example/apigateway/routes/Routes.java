@@ -10,6 +10,7 @@ import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import static org.springframework.cloud.gateway.server.mvc.filter.FilterFunctions.setPath;
+import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions.route;
 
 
 @Configuration
@@ -37,7 +38,7 @@ public class Routes {
 
             log.info("Initializing user service route with URL: {}", userServiceUrl);
 
-            return GatewayRouterFunctions.route("user_service")
+            return route("user_service")
                     .route(RequestPredicates.path("/api/users/**"), request -> {
 
                         log.info("Received request for user-service: {} ", request.uri());
@@ -58,7 +59,7 @@ public class Routes {
 
         log.info("Initializing approval service route with URL: {}", approvalServiceUrl);
 
-        return GatewayRouterFunctions.route("approval_service")
+        return route("approval_service")
                 .route(RequestPredicates.path("/api/approvals/**"), request -> {
 
                     log.info("Received request for approval-service: {} ", request.uri());
@@ -74,6 +75,7 @@ public class Routes {
                 })
                 .build();
     }
+
 
     @Bean
     public RouterFunction<ServerResponse> bookingServiceRoute() {
@@ -97,13 +99,37 @@ public class Routes {
                 .build();
     }
 
+//    @Bean
+//    public RouterFunction<ServerResponse> bookingServiceRoute() {
+//
+//        log.info("Initializing booking service route with URL: {}", bookingServiceUrl);
+//
+//        return route("booking_service")
+//                .route(RequestPredicates.path("/api/bookings/**"), request -> {
+//
+//                    log.info("Received request for booking-service: {} ", request.uri());
+//                    return HandlerFunctions.http(bookingServiceUrl).handle(request);
+//                })
+//                .filter(CircuitBreakerFilterFunctions
+//                        .circuitBreaker("bookingservicecircuitbreaker",URI.create("forward:/fallbackRoute")))
+//        .build();
+//    }
+//    @Bean
+//   public RouterFunction<ServerResponse> fallbackRoute() {
+//            return route("fallbackroute")
+//                    .route(RequestPredicates.all(),
+//                           request-> ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE)
+//                                   .body("Service is not available"))
+//                    .build();
+//   }
+
 
     @Bean
     public RouterFunction<ServerResponse> eventServiceRoute() {
 
         log.info("Initializing event service route with URL: {}", eventServiceUrl);
 
-        return GatewayRouterFunctions.route("event_service")
+        return route("event_service")
                 .route(RequestPredicates.path("/api/events/**"), request -> {
 
                     log.info("Received request for event-service: {} ", request.uri());
@@ -127,7 +153,7 @@ public class Routes {
 
         log.info("Initializing room service route with URL: {}", roomServiceUrl);
 
-        return GatewayRouterFunctions.route("room_service")
+        return route("room_service")
                 .route(RequestPredicates.path("/api/rooms/**"), request -> {
 
                     log.info("Received request for room-service: {} ", request.uri());
@@ -147,7 +173,7 @@ public class Routes {
 
     @Bean
     public RouterFunction<ServerResponse> userServiceSwaggerRoute(){
-        return GatewayRouterFunctions.route("user_service_swagger")
+        return route("user_service_swagger")
                 .route(RequestPredicates.path("/aggregate/user-service/v3/api-docs"),
                         HandlerFunctions.http(userServiceUrl))
                 .filter(setPath("/api-docs"))
@@ -158,7 +184,7 @@ public class Routes {
 
     @Bean
     public RouterFunction<ServerResponse> roomServiceSwaggerRoute(){
-        return GatewayRouterFunctions.route("room_service_swagger")
+        return route("room_service_swagger")
                 .route(RequestPredicates.path("/aggregate/room-service/v3/api-docs"),
                         HandlerFunctions.http(roomServiceUrl))
                 .filter(setPath("/api-docs"))
@@ -169,7 +195,7 @@ public class Routes {
 
     @Bean
     public RouterFunction<ServerResponse> eventServiceSwaggerRoute(){
-        return GatewayRouterFunctions.route("event_service_swagger")
+        return route("event_service_swagger")
                 .route(RequestPredicates.path("/aggregate/event-service/v3/api-docs"),
                         HandlerFunctions.http(eventServiceUrl))
                 .filter(setPath("/api-docs"))
@@ -180,7 +206,7 @@ public class Routes {
 
     @Bean
     public RouterFunction<ServerResponse> bookingServiceSwaggerRoute(){
-        return GatewayRouterFunctions.route("booking_service_swagger")
+        return route("booking_service_swagger")
                 .route(RequestPredicates.path("/aggregate/booking-service/v3/api-docs"),
                         HandlerFunctions.http(bookingServiceUrl))
                 .filter(setPath("/api-docs"))
@@ -190,7 +216,7 @@ public class Routes {
 
     @Bean
     public RouterFunction<ServerResponse> approvalServiceSwaggerRoute(){
-        return GatewayRouterFunctions.route("approval_service_swagger")
+        return route("approval_service_swagger")
                 .route(RequestPredicates.path("/aggregate/approval-service/v3/api-docs"),
                         HandlerFunctions.http(approvalServiceUrl))
                 .filter(setPath("/api-docs"))

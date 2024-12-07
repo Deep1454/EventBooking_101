@@ -14,16 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    /*
-     * Configure the security filter chain for HTTP requests.
-     *
-     * This configuration requires all incoming HTTP requests to be authenticated.
-     * It also configures OAuth2 resource server support to validate JWT tokens.
-     *
-     * @param httpSecurity the HttpSecurity to customize
-     * @return the configured SecurityFilterChain
-     * @throws Exception if an error occurs while configuring security.
-     * */
 
     private final String[] noauthResourceUris = {
             "/swagger-ui",

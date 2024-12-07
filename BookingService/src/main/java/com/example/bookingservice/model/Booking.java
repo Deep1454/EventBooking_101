@@ -18,12 +18,9 @@ public class Booking {
     private String userId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+
     @Id
     private String id;
-
-
-
-
     public String getRoomId() {
         return roomId;
     }

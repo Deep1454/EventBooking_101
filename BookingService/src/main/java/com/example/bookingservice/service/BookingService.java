@@ -1,5 +1,6 @@
 package com.example.bookingservice.service;
 
+import com.example.bookingservice.client.RoomClient;
 import com.example.bookingservice.model.Booking;
 import com.example.bookingservice.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-
 @Service
 public class BookingService {
 
@@ -19,13 +18,14 @@ public class BookingService {
     private BookingRepository bookingRepository;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RoomClient roomClient;
 
-    @Value("${room-service.url}")
-    private String roomServiceUrl;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Value("${user-service.url}")
     private String userServiceUrl;
+
 
     public ResponseEntity<?> createBooking(Booking booking) {
 
@@ -34,21 +34,22 @@ public class BookingService {
                     .body("Invalid user. Booking cannot be created.");
         }
 
-
-        String availabilityUrl = roomServiceUrl + "/api/rooms/roomId/" + booking.getRoomId() + "/availability";
-        Boolean isAvailable;
+        boolean isAvailable;
         try {
-            isAvailable = restTemplate.getForObject(availabilityUrl, Boolean.class);
-        } catch (RestClientException e) {
+            isAvailable = roomClient.checkRoomAvailability(booking.getRoomId());
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("Fallback executed")) {
+                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                        .body("Room Service is currently unavailable. Please try again later.");
+            }
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error checking room availability: " + e.getMessage());
+                    .body("An unexpected error occurred: " + e.getMessage());
         }
 
-        if (isAvailable == null || !isAvailable) {
+        if (!isAvailable) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Room is not available for booking.");
         }
-
 
         List<Booking> overlappingBookings = bookingRepository.findByRoomIdAndStartTimeBeforeAndEndTimeAfter(
                 booking.getRoomId(), booking.getEndTime(), booking.getStartTime());
@@ -57,7 +58,6 @@ public class BookingService {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Room is already booked for the selected time range.");
         }
-
 
         Booking savedBooking = bookingRepository.save(booking);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBooking);
@@ -69,7 +69,7 @@ public class BookingService {
 
         try {
             response = restTemplate.getForEntity(url, Void.class);
-        } catch (RestClientException e) {
+        } catch (Exception e) {
             return false;
         }
 

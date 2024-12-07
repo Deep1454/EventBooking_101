@@ -11,7 +11,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EventService {
@@ -85,8 +84,6 @@ public class EventService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("User does not have permission to update this event.");
         }
-
-
         existingEvent.setEventName(eventDetails.getEventName());
         existingEvent.setOrganizerId(eventDetails.getOrganizerId());
         existingEvent.setEventType(eventDetails.getEventType());
