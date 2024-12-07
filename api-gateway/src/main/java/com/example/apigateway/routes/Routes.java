@@ -99,30 +99,6 @@ public class Routes {
                 .build();
     }
 
-//    @Bean
-//    public RouterFunction<ServerResponse> bookingServiceRoute() {
-//
-//        log.info("Initializing booking service route with URL: {}", bookingServiceUrl);
-//
-//        return route("booking_service")
-//                .route(RequestPredicates.path("/api/bookings/**"), request -> {
-//
-//                    log.info("Received request for booking-service: {} ", request.uri());
-//                    return HandlerFunctions.http(bookingServiceUrl).handle(request);
-//                })
-//                .filter(CircuitBreakerFilterFunctions
-//                        .circuitBreaker("bookingservicecircuitbreaker",URI.create("forward:/fallbackRoute")))
-//        .build();
-//    }
-//    @Bean
-//   public RouterFunction<ServerResponse> fallbackRoute() {
-//            return route("fallbackroute")
-//                    .route(RequestPredicates.all(),
-//                           request-> ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE)
-//                                   .body("Service is not available"))
-//                    .build();
-//   }
-
 
     @Bean
     public RouterFunction<ServerResponse> eventServiceRoute() {
