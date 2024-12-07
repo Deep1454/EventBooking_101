@@ -2,11 +2,11 @@
 The Event Booking Project is a microservices-based application developed in Java that facilitates the booking of events and rooms. It allows users to create events, manage bookings, and handle approvals through a secure and efficient interface. In this system, only administrators have permission to approve bookings, ensuring that all requests are verified and managed appropriately. This project is designed for users and organizations that require a reliable way to organize and manage events in various venues.
 
 ## features
-- User Authentication
-- Room Booking
-- Event Management
-- Approval Workflow 
-- User Roles
+- User Authentication: Secure login and role-based access.
+- Room Booking: Reserve rooms based on availability.
+- Event Management: Create and manage event details linked to bookings.
+- Approval Workflow: Administrators can approve or reject event booking requests.
+- User Roles: Role-based access for users (e.g., Admin, Staff, Student).
 
 ## Technologies Used
 - Java
@@ -15,15 +15,25 @@ The Event Booking Project is a microservices-based application developed in Java
 - PostgreSQL
 - MongoDB
 - Docker
+- Keycloak
+- Kafka
+- Swagger
 - pgAdmin
 
 ## Architecture
-This project follows a microservices architecture, where each service is responsible for a specific business capability. The services communicate through REST APIs and enabling scalability.
+This project follows a microservices architecture, where each service handles a specific business capability and communicates with others through REST APIs or Kafka. This modular architecture ensures scalability, flexibility, and maintainability.
+
+Microservices:
 - UserService: Manages user accounts and authentication.
 - RoomService: Handles room availability and bookings.
 - BookingService: Manages the booking process and links users to rooms.
 - EventService: Manage events and their details.
-- ApprovalService: Manages the approval process for event requests.
+- ApprovalService: Facilitates the approval process for events and enforces role-based permissions.
+
+Communication and Resilience:
+- Spring Cloud Gateway: Acts as an API Gateway to route and secure microservice requests.
+- Kafka with Schema Registry: Enables event-driven communication between services, ensuring schema compatibility.
+- Resilience4J: Implements Circuit Breaker patterns to handle service failures gracefully.
 
 ## Installation
 To set up the project locally, follow these steps:
@@ -88,5 +98,5 @@ ApprovalService:
 - Rooms: Contains details of rooms available for booking.
 - Events: Manages event data linked to room bookings.
 - Approvals: Record approval statuses and details related to events.
-- Bookings: Current status of the booking.
+- Bookings: Tracks the status of bookings and reservations.
 
